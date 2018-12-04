@@ -70,6 +70,7 @@ public class CertificateService {
     @PostConstruct
     private void initCertificatesStorage() throws Exception {
         BioRandomConsole.main(null);
+        System.out.println("STORE_PATH_2012_256 " + STORE_PATH_2012_256);
         Optional<Certificate> optional = readCertSample(STORE_PATH_2012_256, ALIAS_2012_256);
         if (!optional.isPresent()) {
             //получение сертификата и запись его в хранилище
@@ -99,8 +100,7 @@ public class CertificateService {
      * @return подпись
      * @throws Exception /
      */
-    public byte[] sign(String alghorithmName,
-                               byte[] data) throws Exception {
+    public byte[] sign(String alghorithmName, byte[] data) throws Exception {
         return sign(alghorithmName,getPrivateKey(STORE_PATH_2012_256, ALIAS_2012_256), data);
     }
 
