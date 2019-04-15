@@ -2,6 +2,7 @@ package cryptopro.jcp.example;
 
 import org.springframework.stereotype.Service;
 import ru.CryptoPro.JCP.params.AlgIdSpec;
+import ru.CryptoPro.JCP.params.CryptDhAllowedSpec;
 import ru.CryptoPro.JCP.params.OID;
 import java.security.KeyPair;
 
@@ -45,6 +46,7 @@ public class KeyPairGeneratorService {
         final AlgIdSpec keyParams =
                 new AlgIdSpec(keyOid, signOid, digestOid, cryptOid);
         keyGen.initialize(keyParams);
+        keyGen.initialize(new CryptDhAllowedSpec());
 
         // генерирование ключевой пары
         return keyGen.generateKeyPair();
