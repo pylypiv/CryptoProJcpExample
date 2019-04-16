@@ -194,7 +194,7 @@ public class TestController {
 				e.printStackTrace();
 				return "{\"test\":\"FAIL\"}";
 			}
-			return certificateService.testRespose(); 
+			return certificateService.testRespose(true); 
 
 	}
     
@@ -248,6 +248,6 @@ public class TestController {
 			e.printStackTrace();
 			return "{\"test\":\"FAIL\"}";
 		}
-		return certificateService.testRespose(); 
+		return certificateService.testRespose(false); 
 	}
 }

@@ -540,14 +540,14 @@ public class CertificateService {
 	
 	
 	/**
-	 * Формирование совмещенно подписи на сервере совместимой с Browser Plugin
+	 * Формирование совмещенной/присоединенной подписи на сервере совместимой с Browser Plugin
 	 * @return - совмещенная подпись и контент в формате JSON
 	 * @throws Exception - исключения в процессе формирования
 	 */
-	public String testRespose() throws Exception {
+	public String testRespose(boolean isDetachSing) throws Exception {
 		
 		PrivateKey pk = getPrivateKey(STORE_PATH_2012_256, ALIAS_2012_256);
-		CAdESSignature cadesSignature = new CAdESSignature(false); // совмещенная
+		CAdESSignature cadesSignature = new CAdESSignature(isDetachSing); // false совмещенная
 		
 	      // определение списка сертификатов, из которых осуществляется построение цепочки
 	      // путем эксперемента определил что достаточно корневой сертификат. (при корневой<>пользовательский) 
@@ -601,7 +601,8 @@ public class CertificateService {
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		cadesSignature.open(baos);
-		cadesSignature.update("тест".getBytes());
+		String dataFor = "tertree";
+		cadesSignature.update(dataFor.getBytes());
 		// Создание подписи с выводом в baos
 		cadesSignature.close();
 		baos.close();
@@ -609,8 +610,12 @@ public class CertificateService {
 		byte [] sign = org.bouncycastle.util.encoders.Base64.encode(baos.toByteArray());
 		
 		System.out.println(new String(sign));
-		
-		return "{\"sign\":\""+new String(sign)+"\"}";		
+		if(isDetachSing) {
+			return "{\"sign\":\""+new String(sign)+"\", \"data\": \""+new String(org.bouncycastle.util.encoders.Base64.encode(dataFor.getBytes()))+"\"}";
+		}
+		else {
+			return "{\"sign\":\""+new String(sign)+"\"}";
+		}		
 		
 //		return "{\"sign\":\"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\"}";
 	}
