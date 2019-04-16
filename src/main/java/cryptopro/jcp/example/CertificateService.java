@@ -539,7 +539,12 @@ public class CertificateService {
 
 	
 	
-	public String testRespose(String string) throws Exception {
+	/**
+	 * Формирование совмещенно подписи на сервере совместимой с Browser Plugin
+	 * @return - совмещенная подпись и контент в формате JSON
+	 * @throws Exception - исключения в процессе формирования
+	 */
+	public String testRespose() throws Exception {
 		
 		PrivateKey pk = getPrivateKey(STORE_PATH_2012_256, ALIAS_2012_256);
 		CAdESSignature cadesSignature = new CAdESSignature(false); // совмещенная
